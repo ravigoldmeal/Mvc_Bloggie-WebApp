@@ -1,18 +1,18 @@
 ﻿using Bloggi.Data;
 using Bloggi.Models.Domain;
 using Bloggi.Models.ViewModels;
+using Bloggi.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bloggi.Controllers
-{   
+{
     public class AdminTagsController : Controller
     {
-        private BloggiDbContext _bloggiDbContext;
-        public AdminTagsController(BloggiDbContext bloggiDbContext)
+        private readonly ITagRepository tagRepository;
+        public AdminTagsController(ITagRepository tagRepository)
         {
-            _bloggiDbContext = bloggiDbContext;
-
-
+            this.tagRepository = tagRepository;
         }
         [HttpGet]
         public IActionResult Add()
@@ -22,31 +22,29 @@ namespace Bloggi.Controllers
 
         [HttpPost]
         //[ActionName("Add")]
-        public IActionResult /*SubmitTag*/ Add(AddTagRequest addTagRequest)
+        public async Task<IActionResult>/*SubmitTag*/ Add(AddTagRequest addTagRequest)
         {
             // mapping add tag to tag domain model
-            var tag =new Tag
-            { 
-                Name = addTagRequest.Name , 
-                DisplayName = addTagRequest.DisplayName ,
+            var tag = new Tag
+            {
+                Name = addTagRequest.Name,
+                DisplayName = addTagRequest.DisplayName,
             };
-            _bloggiDbContext.Tags.Add(tag);
-            _bloggiDbContext.SaveChanges();
-
+             await tagRepository.AddAsync(tag);
             return RedirectToAction("List");
         }
         [HttpGet]
         [ActionName("List")]
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            var tags = _bloggiDbContext.Tags.ToList();
+            var tags = await tagRepository.GetAllAsync();
             return View(tags);
         }
         [HttpGet]
-        public IActionResult Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid id)
         {
-           //var tag = _bloggiDbContext.Tags.Find(id);
-          var tag =  _bloggiDbContext.Tags.FirstOrDefault(t => t.Id == id);
+            //var tag = _bloggiDbContext.Tags.Find(id);
+            var tag = await tagRepository.GetAsync(id);
             if (tag != null)
             {
                 var editTagRequest = new EditTagRequest
@@ -60,7 +58,7 @@ namespace Bloggi.Controllers
             return View(null);
         }
         [HttpPost]
-        public IActionResult Edit(EditTagRequest editTagRequest)
+        public async Task<IActionResult> Edit(EditTagRequest editTagRequest)
         {
             var tag = new Tag
             {
@@ -68,34 +66,36 @@ namespace Bloggi.Controllers
                 Name = editTagRequest.Name,
                 DisplayName = editTagRequest.DisplayName
             };
-            var existingTag = _bloggiDbContext.Tags.Find(tag.Id);
-            if (existingTag != null)
+            var updatedTag = await tagRepository.UpdateAsync(tag);
+            if (updatedTag != null) 
             {
-                existingTag.Name = tag.Name;
-                existingTag.DisplayName = tag.DisplayName;
-                _bloggiDbContext.SaveChanges();
-                return RedirectToAction("List", new { id = editTagRequest.Id });
-            }
-            return RedirectToAction("Edit" , new { id = editTagRequest.Id });
-        }
-        [HttpPost]
-        public IActionResult Delete(EditTagRequest editTagRequest)
-        {
-         var tag = _bloggiDbContext.Tags.Find(editTagRequest.Id);
-            if(tag != null)
-            {
-                _bloggiDbContext.Tags.Remove(tag);
-                _bloggiDbContext.SaveChanges();
+                // show success notification 
                 return RedirectToAction("List");
             }
-            return RedirectToAction("Edit",new { id = editTagRequest.Id });
+            else
+            {
+                //show error 
+            }
+       
+            return RedirectToAction("Edit", new { id = editTagRequest.Id });
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(EditTagRequest editTagRequest)
+        {
+            var updatedTag = await tagRepository.DeleteAsync(editTagRequest.Id);
+            if (updatedTag != null)
+            {
+                
+                return RedirectToAction("List");
+            }
+            return RedirectToAction("Edit", new { id = editTagRequest.Id });
         }
 
 
-            
+
 
     }
 
-           
-    
+
+
 }

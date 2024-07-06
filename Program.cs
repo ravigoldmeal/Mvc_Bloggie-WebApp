@@ -1,11 +1,15 @@
 using Bloggi.Data;
+using Bloggi.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<BloggiDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("BloggiDbConnectionString")));
+builder.Services.AddDbContext<BloggiDbContext>
+    (options => options.UseSqlServer(builder.Configuration.GetConnectionString("BloggiDbConnectionString")));
+builder.Services.AddScoped<ITagRepository, TagRepository>();
+builder.Services.AddScoped<IBlogPostRepository, BlogPostRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
