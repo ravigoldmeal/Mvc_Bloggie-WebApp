@@ -18,9 +18,16 @@ namespace Bloggi.Repositories
             return blogPost;
         }
 
-        public Task<BlogPost?> DeleteAsync(Guid id)
+        public async Task<BlogPost?> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+          var existingBlog =  await bloggiDbContext.BlogPosts.FindAsync(id);
+            if (existingBlog != null)
+            {
+                bloggiDbContext.BlogPosts.Remove(existingBlog);
+                await bloggiDbContext.SaveChangesAsync();
+                return existingBlog;
+            }
+            return null;
         }
 
         public async Task<IEnumerable<BlogPost>> GetAllAsync()
@@ -33,9 +40,26 @@ namespace Bloggi.Repositories
           return await bloggiDbContext.BlogPosts.Include(x => x.Tags).FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<BlogPost?> UpdateAsync(BlogPost blogPost)
+        public async Task<BlogPost?> UpdateAsync(BlogPost blogPost)
         {
-            throw new NotImplementedException();
+            var existingBlogPost = await bloggiDbContext.BlogPosts.Include(x => x.Tags).FirstOrDefaultAsync(x => x.Id == blogPost.Id);
+            if (existingBlogPost != null)
+            {
+                existingBlogPost.Id = blogPost.Id;
+                existingBlogPost.Heading = blogPost.Heading;
+                existingBlogPost.PageTitle = blogPost.PageTitle;
+                existingBlogPost.Content = blogPost.Content;
+                existingBlogPost.ShortDescription = blogPost.ShortDescription;
+                existingBlogPost.Author = blogPost.Author;
+                existingBlogPost.FeaturedImageUrl = blogPost.FeaturedImageUrl;
+                existingBlogPost.UrlHandel = blogPost.UrlHandel;
+                existingBlogPost.PublishDate = blogPost.PublishDate;
+                existingBlogPost.Visible = blogPost.Visible;
+                existingBlogPost.Tags = blogPost.Tags;
+                await bloggiDbContext.SaveChangesAsync();
+                return existingBlogPost;
+            }
+            return null;
         }
     }
 }

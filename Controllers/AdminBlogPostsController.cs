@@ -60,7 +60,7 @@ namespace Bloggi.Controllers
                 }
             }
             blogpost.Tags = selectedTags;
-            await blogPostRepository.AddAsync(blogpost);
+            await blogPostRepository.AddAsync(blogpost); 
             return RedirectToAction("Add");
         }
         [HttpGet]
@@ -70,7 +70,7 @@ namespace Bloggi.Controllers
 
             return View(blogposts);
         }
-
+        [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
             // Retrieve result from repository
@@ -104,11 +104,67 @@ namespace Bloggi.Controllers
                 SelectedTags = blogPost.Tags.Select(x => x.Id.ToString()).ToArray()
             };
 
-            // Pass data to view
+            // Pass data to view 
             return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditBlogPostRequest editBlogPostRequest)
+        {
+            //map view model to domain model 
+            var blogPostDomainModel = new BlogPost
+            {
+                Id = editBlogPostRequest.Id,
+                Heading = editBlogPostRequest.Heading,
+                PageTitle = editBlogPostRequest.PageTitle,
+                Content = editBlogPostRequest.Content,
+                Author = editBlogPostRequest.Author,
+                ShortDescription = editBlogPostRequest.ShortDescription,
+                FeaturedImageUrl = editBlogPostRequest.FeaturedImageUrl,
+                PublishDate = editBlogPostRequest.PublishDate,
+                UrlHandel = editBlogPostRequest.UrlHandel,
+                Visible = editBlogPostRequest.Visible
+            };
+
+            var selectedTags = new List<Tag>();
+            foreach(var selectedTag in editBlogPostRequest.SelectedTags)
+            {
+                if (Guid.TryParse(selectedTag, out var tag))
+                {
+                    var foundTag = await tagRepository.GetAsync(tag);
+                    if (foundTag != null)
+                    {
+                        selectedTags.Add(foundTag);
+                    }
+                }
+            }
+            blogPostDomainModel.Tags = selectedTags;
+
+
+            //submit info to repository 
+            var Updatedblog = await blogPostRepository.UpdateAsync(blogPostDomainModel);
+            if(Updatedblog != null)
+            {
+                return RedirectToAction("List");
+            }
+            //redirect to get
+            return RedirectToAction("Edit");
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(EditBlogPostRequest editBlogPostRequest)
+        {
+           var deletedBlogPost = await blogPostRepository.DeleteAsync(editBlogPostRequest.Id);
+            if(deletedBlogPost != null)
+            {
+
+            return RedirectToAction("List"); 
+            }
+            return RedirectToAction("Edit", new { id = editBlogPostRequest.Id });
+             
         }
 
     }
+
 
 
 }
