@@ -34,7 +34,7 @@
                              class="mb-2 d-block img-fluid" />
                         <h2 class="mb-4">@blogPost.Heading</h2>
                         <p class="mb-4">
-                            Author:@blogPost.Author<br />
+                            Author:@blogPost.Author<br /> 
                             Published Date:@blogPost.PublishDate.ToShortDateString()
                         </p>
                         <p class="mb-4">
@@ -45,7 +45,10 @@
                         </p>
 
                         <p class="mb-4">@blogPost.ShortDescription</p>
-                        <a class="btn btn-dark" href="#">Read More</a>
+                        <a class="btn btn-dark" asp-area=""
+                        asp-controller="Blogs"
+                        asp-action="Index"
+                        asp-route-urlHandel="@blogPost.UrlHandel">Read More</a>
 
                     </div>
                 }
