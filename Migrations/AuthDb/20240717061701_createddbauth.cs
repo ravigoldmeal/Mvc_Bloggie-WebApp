@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Bloggi.Migrations.AuthDb
 {
     /// <inheritdoc />
-    public partial class newDbcontextadded : Migration
+    public partial class createddbauth : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -163,14 +163,15 @@ namespace Bloggi.Migrations.AuthDb
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "52c9ce28-a11c-4c81-8f04-11008cacd40f", "52c9ce28-a11c-4c81-8f04-11008cacd40f", "User", "User" },
-                    { "6578be4f-d3c7-4c59-ae19-9765af831a80", "6578be4f-d3c7-4c59-ae19-9765af831a80", "Admin", "Admin" }
+                    { "52c9ce28-a11c-4c81-8f04-11008cacd40f", "52c9ce28-a11c-4c81-8f04-11008cacd40f", "User", "USER" },
+                    { "6578be4f-d3c7-4c59-ae19-9765af831a80", "6578be4f-d3c7-4c59-ae19-9765af831a80", "Admin", "ADMIN" },
+                    { "d7874aa1-4fbe-4f68-981e-625af90351c7", "d7874aa1-4fbe-4f68-981e-625af90351c7", "SuperAdmin", "SUPERADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "6c55da38-b967-4b15-83b0-8ec7ca3df774", 0, "38ecb53b-d30e-4938-9ddc-c6f0df883337", "superadmin@bloggi.com", false, false, null, "SUPERADMIN@BLOGGI.COM", "SUPERADMIN@BLOGGI.COM", "AQAAAAIAAYagAAAAEEtO1uH2PdrBgl011PDwALzVGT9S5md6ajtequLXYVpwESvikGrAT6MAALoHUIKBog==", null, false, "9e1a5195-7d21-4481-b7a5-b91153ae53ac", false, "superadmin@bloggi.com" });
+                values: new object[] { "6c55da38-b967-4b15-83b0-8ec7ca3df774", 0, "6c55da38-b967-4b15-83b0-8ec7ca3df774", "superadmin@bloggi.com", false, false, null, "SUPERADMIN@BLOGGI.COM", "SUPERADMIN@BLOGGI.COM", "AQAAAAIAAYagAAAAEHhlnSpyvzIRPUnDz6KQOdraJswv4IlB6TUmbBu7ERw6vvqVCRm9RmgZl8GMvOUTsA==", null, false, "74cc6339-9c84-4f11-9480-33d4877ce0b7", false, "superadmin@bloggi.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

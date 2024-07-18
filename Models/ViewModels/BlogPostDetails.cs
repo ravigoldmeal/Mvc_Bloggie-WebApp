@@ -1,6 +1,8 @@
-﻿namespace Bloggi.Models.Domain
+﻿using Bloggi.Models.Domain;
+
+namespace Bloggi.Models.ViewModels
 {
-    public class BlogPost
+    public class BlogPostDetails
     {
         public Guid Id { get; set; }
         public string Heading { get; set; }
@@ -12,9 +14,8 @@
         public DateTime PublishDate { get; set; }
         public string Author { get; set; }
         public bool Visible { get; set; }
-        //nAVIGATION PROPERTY
-        public ICollection<Tag> Tags { get; set; }
-        public ICollection<BlogPostLike>Likes { get; set; } 
 
+        public ICollection<Tag> Tags { get; set; }
+        public int TotalLikes { get; set; }
     }
 }

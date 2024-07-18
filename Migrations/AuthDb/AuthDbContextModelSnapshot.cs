@@ -54,14 +54,21 @@ namespace Bloggi.Migrations.AuthDb
                             Id = "6578be4f-d3c7-4c59-ae19-9765af831a80",
                             ConcurrencyStamp = "6578be4f-d3c7-4c59-ae19-9765af831a80",
                             Name = "Admin",
-                            NormalizedName = "Admin"
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "d7874aa1-4fbe-4f68-981e-625af90351c7",
+                            ConcurrencyStamp = "d7874aa1-4fbe-4f68-981e-625af90351c7",
+                            Name = "SuperAdmin",
+                            NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = "52c9ce28-a11c-4c81-8f04-11008cacd40f",
                             ConcurrencyStamp = "52c9ce28-a11c-4c81-8f04-11008cacd40f",
                             Name = "User",
-                            NormalizedName = "User"
+                            NormalizedName = "USER"
                         });
                 });
 
@@ -159,15 +166,15 @@ namespace Bloggi.Migrations.AuthDb
                         {
                             Id = "6c55da38-b967-4b15-83b0-8ec7ca3df774",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "38ecb53b-d30e-4938-9ddc-c6f0df883337",
+                            ConcurrencyStamp = "6c55da38-b967-4b15-83b0-8ec7ca3df774",
                             Email = "superadmin@bloggi.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@BLOGGI.COM",
                             NormalizedUserName = "SUPERADMIN@BLOGGI.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEtO1uH2PdrBgl011PDwALzVGT9S5md6ajtequLXYVpwESvikGrAT6MAALoHUIKBog==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHhlnSpyvzIRPUnDz6KQOdraJswv4IlB6TUmbBu7ERw6vvqVCRm9RmgZl8GMvOUTsA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9e1a5195-7d21-4481-b7a5-b91153ae53ac",
+                            SecurityStamp = "74cc6339-9c84-4f11-9480-33d4877ce0b7",
                             TwoFactorEnabled = false,
                             UserName = "superadmin@bloggi.com"
                         });

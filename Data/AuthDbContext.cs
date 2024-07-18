@@ -7,7 +7,7 @@ namespace Bloggi.Data
 {
     public class AuthDbContext : IdentityDbContext
     {
-        public AuthDbContext(DbContextOptions options) : base(options)
+        public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options)
         {
         }
 
@@ -53,7 +53,9 @@ namespace Bloggi.Data
                 Email = "superadmin@bloggi.com",
                 NormalizedEmail = "SUPERADMIN@BLOGGI.COM",
                 NormalizedUserName = "SUPERADMIN@BLOGGI.COM",
-                Id = superAdminId
+                Id = superAdminId,
+                ConcurrencyStamp = superAdminId,
+                SecurityStamp = "74cc6339-9c84-4f11-9480-33d4877ce0b7"
             };
             superAdminUser.PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(superAdminUser, "Superadmin@123");
 
