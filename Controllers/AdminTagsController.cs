@@ -40,9 +40,23 @@ namespace Bloggi.Controllers
 
         [HttpGet]
         [ActionName("List")]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(
+            string? searchQuery,
+            string? sortBy ,
+            string? sortDirection,
+            int pageSize = 3,
+            int pageNumber = 1
+            )
         {
-            var tags = await tagRepository.GetAllAsync();
+            var totalRecords = await tagRepository.CountAsync();
+            var totalPages = Math.Ceiling((decimal) totalRecords / pageSize);
+
+            ViewBag.TotalPages = totalPages;
+
+            ViewBag.SearchQuery = searchQuery;
+            ViewBag.SortBy = sortBy;
+            ViewBag.SortDirection = sortDirection;
+            var tags = await tagRepository.GetAllAsync(searchQuery, sortBy, sortDirection,pageNumber,pageSize);
             return View(tags);
         }
 
